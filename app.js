@@ -1,3 +1,4 @@
+var createError = require("http-errors");
 var express = require("express");
 var cors = require("cors");
 var config = require("./config/config");
@@ -18,15 +19,23 @@ app.use(
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
+
+app.use(function (req, res, next) {
+  res.status(404).render('error', {
+    status: 404,
+    title: 'Không tìm thấy trang',
+    message: 'Trang bạn cần tìm có thể đã bị xóa hoặc không tồn tại',
+  });
+});
 
 app.use(function (err, req, res, next) {
   res.locals.error = req.app.get("env") === "development" ? err : {};
   res.status(err.status || 500);
-  res.render("error", {
+  res.status(500).render("error", {
     status: err.status || 500,
-    message: err.message,
+    title: 'Lỗi hệ thống',
+    message: 'Hệ thống đã xảy ra sự cố, vui lòng thử lại sau',
   });
 });
 

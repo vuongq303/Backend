@@ -1,11 +1,15 @@
 const nodemailer = require("nodemailer");
+const env = require("../config/env");
 
 const emailTrans = nodemailer.createTransport({
-  service: "gmail",
+  host: env.MAIL_DOMAIN,
+  port: 465,
+  secure: true,
   auth: {
-    user: "vuongq303@gmail.com",
-    pass: "mqnu jofj habh ytws",
-  },
+    user: env.EMAIL_USER,
+    pass: env.EMAIL_PASS
+  }
 });
+
 
 module.exports = emailTrans;

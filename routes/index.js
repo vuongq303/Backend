@@ -3,10 +3,6 @@ var router = express.Router();
 const emailTrans = require("../middleware/email");
 const env = require("../config/env");
 
-router.get("/", function (req, res, next) {
-  res.status(200).send("");
-});
-
 router.post("/send-email", async function (req, res) {
   var name = req.body.fullname || "";
   var tel = req.body.phone || "";
@@ -16,7 +12,7 @@ router.post("/send-email", async function (req, res) {
     const mailOptions = {
       from: env.EMAIL_USER,
       to: env.EMAIL_RECEIVE,
-      subject: "Đăng kí nhận thông tin",
+      subject: "Đăng kí nhận thông tin ",
       text: `Tên: ${name}\nSố điện thoại: ${tel}\nEmail: ${email}\n`,
     };
 
